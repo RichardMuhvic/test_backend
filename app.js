@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Thing = require('./model/thing');
+const thing = require('./model/thing');
+const app = express();
+
 
 
 mongoose.connect('mongodb+srv://Richard:love1988@cluster0.0le2j.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -8,8 +10,6 @@ mongoose.connect('mongodb+srv://Richard:love1988@cluster0.0le2j.mongodb.net/myFi
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
-
-const app = express();
 
 app.use(express.json());
 
@@ -20,20 +20,17 @@ app.use((req, res, next) => {
     next();
 });
 
-
 app.post('/api/products', (req, res, next) => {
     delete req.body._id;
-    const thing = new Thing({
+    const products = new product({
         ...req.body
     });
-    products.save()
-        .then(products => res.status(200).json({ products }))
+    thing.save()
+        .then(product => res.status(200).json({ product }))
         .catch(error =>  res.status(400).json({ error }))
-    next();
 });
 
-
-app.use('/api/products', (req, res, next) => {
+app.get('/api/products', (req, res, next) => {
     const products = [{
         name: String,
         description: String,
@@ -44,7 +41,7 @@ app.use('/api/products', (req, res, next) => {
     next();
 });
 
-app.use('/api/products/:id', (req, res, next) => {
+app.get('/api/products/:id', (req, res, next) => {
     const productID = {
         _id: String,
     };
