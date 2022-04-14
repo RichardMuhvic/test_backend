@@ -26,13 +26,14 @@ app.post('/api/products', (req, res, next) => {
     const thing = new Thing({
         ...req.body
     });
-    product.save()
-        .then(product => res.status(200).json({ product }))
+    products.save()
+        .then(products => res.status(200).json({ products }))
         .catch(error =>  res.status(400).json({ error }))
+    next();
 });
 
 
-app.get('/api/products', (req, res, next) => {
+app.use('/api/products', (req, res, next) => {
     const products = [{
         name: String,
         description: String,
@@ -40,9 +41,10 @@ app.get('/api/products', (req, res, next) => {
         inStock: Boolean,
     }];
     res.status(200).json(products);
+    next();
 });
 
-app.get('/api/products/:id', (req, res, next) => {
+app.use('/api/products/:id', (req, res, next) => {
     const productID = {
         _id: String,
     };
