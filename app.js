@@ -22,21 +22,19 @@ app.use((req, res, next) => {
 
 app.post('/api/products', (req, res, next) => {
     delete req.body._id;
-    const products = new product({
-        ...req.body
-    });
-    thing.save()
-        .then(product => res.status(200).json({ product }))
-        .catch(error =>  res.status(400).json({ error }))
-});
-
-app.get('/api/products', (req, res, next) => {
-    const products = [{
+    const products =  new products [{
         name: String,
         description: String,
         price: Number,
         inStock: Boolean,
     }];
+    thing.save()
+        .then(product => res.status(200).json({ product }))
+        .catch(error =>  res.status(400).json({ error }))
+    next();
+});
+
+app.get('/api/products', (req, res, next) => {
     res.status(200).json(products);
     next();
 });
